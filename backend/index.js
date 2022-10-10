@@ -6,6 +6,7 @@
 //const express = require('express')
 import express from 'express'; // <-- Module Style import
 import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
 
 // Importing user route
 import router from './routes/users.js';
@@ -15,6 +16,13 @@ import router from './routes/users.js';
 
 const app = express()
 const port = 3001
+
+mongoose.connect('mongodb+srv://Aans:Aans123@cluster0.0qgjt.mongodb.net/?retryWrites=true&w=majority',
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }
+);
 
 app.use(bodyParser.json())
 // Adding a Router
