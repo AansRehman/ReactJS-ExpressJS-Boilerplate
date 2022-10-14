@@ -8,6 +8,8 @@ import express from 'express'; // <-- Module Style import
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 
+import UserModel from './db/users.js';
+
 // Importing user route
 import router from './routes/users.js';
 // const router = require('router')
@@ -20,7 +22,9 @@ const port = 3001
 mongoose.connect('mongodb+srv://Aans:Aans123@cluster0.0qgjt.mongodb.net/?retryWrites=true&w=majority',
   {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    AUTHENTICATION_DATABASE: null,
+    // 'AUTHENTICATION_DATABASE': null,
   }
 );
 
@@ -29,8 +33,21 @@ app.use(bodyParser.json())
 app.use('/users', router);
 
 app.get('/', (req, res) => {
-    res.send('Hello Universe!')
+    res.send('Check Server is Running!')
 })
+
+app.get('/getUsers', (req, res) => {
+  UserModel.find({}, (err, result)=>{
+    if (err)
+    {
+      res.json(err);
+    }
+    else{
+      res.json(result);
+    }
+  })
+})
+
 
 app.get('/todos', (req, res) => {
     res.send('A list of todo items will be returned')
