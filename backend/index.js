@@ -1,21 +1,28 @@
-/**
- * This is a basic starting point of the assignment
- * Modify the code according to your own needs and requirements
- */
-
 //const express = require('express')
 import express from 'express'; // <-- Module Style import
 import bodyParser from 'body-parser';
-import mongoose from 'mongoose';
+import mongoose, { connection } from 'mongoose';
 import cors from 'cors';
 import UserModel from './db/users.js';
+
+import AdminRouter from './routes/admin_routes.js';
+import CustomerRouter from './routes/customer_routes.js';
+
+app.use('/customer', CustomerRouter);
+app.use('/admin', AdminRouter);
+
 
 // Importing user route
 import router from './routes/users.js';
 // const router = require('router')
-
+require('dotenv').config();
 // const bodyParser = require('body-parser')
-
+const uri = process.env.ATLAS_URI;
+mongoose.connect(uri, {useNewUrlParser:true})
+const connection1 = mongoose.connection;
+connection1.once('open',()=>{
+  console.log("Connected to DB");
+})
 
 // const cors = require('cors');
 
